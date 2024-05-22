@@ -1,17 +1,20 @@
 package com.furqonajiy.restcountries.api.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
+import com.furqonajiy.restcountries.model.backend.restcountries.Country;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @Slf4j
 @Component
@@ -32,7 +35,9 @@ public class RestCountriesAdapter {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public RestCountriesResponse allCountries() {
+    public List<Country> allCountries() {
+        log.debug("Invoke Rest Countries - All Countries");
+
         try {
             String uriString = UriComponentsBuilder.newInstance()
                     .scheme(scheme)
@@ -41,8 +46,8 @@ public class RestCountriesAdapter {
                     .path(pathAll)
                     .toUriString();
 
-            RestCountriesResponse backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, RestCountriesResponse.class).getBody();
-            log.debug("Response: {}", objectMapper.writeValueAsString(backendResponse));
+            List<Country> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>(){}).getBody();
+            log.debug("Rest Countries Backend Response: {}", objectMapper.writeValueAsString(backendResponse));
 
             return backendResponse;
         } catch (HttpStatusCodeException e) {
