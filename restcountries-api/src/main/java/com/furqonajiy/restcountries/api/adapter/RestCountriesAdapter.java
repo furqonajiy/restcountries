@@ -1,6 +1,7 @@
 package com.furqonajiy.restcountries.api.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,7 +32,7 @@ public class RestCountriesAdapter {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public Object allCountries() {
+    public RestCountriesResponse allCountries() {
         try {
             String uriString = UriComponentsBuilder.newInstance()
                     .scheme(scheme)
@@ -40,7 +41,10 @@ public class RestCountriesAdapter {
                     .path(pathAll)
                     .toUriString();
 
-            return restTemplate.exchange(uriString, HttpMethod.GET, null, Object.class).getBody();
+            RestCountriesResponse backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, RestCountriesResponse.class).getBody();
+            log.debug("Response: {}", objectMapper.writeValueAsString(backendResponse));
+
+            return backendResponse;
         } catch (HttpStatusCodeException e) {
             log.debug("HttpStatusCodeException occurs.", e);
             return null;
