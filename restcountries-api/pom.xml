@@ -55,7 +55,6 @@
         <dependency>
             <groupId>com.furqonajiy</groupId>
             <artifactId>restcountries-model</artifactId>
-            <version>${restcountries.version}</version>
         </dependency>
     </dependencies>
 </project>
