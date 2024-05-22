@@ -28,6 +28,8 @@ public class RestCountriesAdapter {
     private int port;
     @Value("${restcountries.path.all}")
     private String pathAll;
+    @Value("${restcountries.path.region}")
+    private String pathRegion;
 
     @Autowired
     @Qualifier("restCountriesRestTemplate")
@@ -49,6 +51,27 @@ public class RestCountriesAdapter {
 
             List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>(){}).getBody();
             log.debug("Rest Countries Backend Response: {}", objectMapper.writeValueAsString(backendResponse));
+
+            return backendResponse;
+        } catch (Exception e) {
+            log.debug("Exception occurs.", e);
+            throw e;
+        }
+    }
+
+    public List<RestCountriesResponse> getRegion(String region) throws JsonProcessingException {
+        log.debug("Invoke Rest Countries - Region: {}", region);
+
+        try {
+            String uriString = UriComponentsBuilder.newInstance()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .path(pathRegion.replace("{region}", region))
+                    .toUriString();
+
+            List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>(){}).getBody();
+            log.debug("Countries from Region {}: {}", region, objectMapper.writeValueAsString(backendResponse));
 
             return backendResponse;
         } catch (Exception e) {
