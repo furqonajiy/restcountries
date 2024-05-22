@@ -9,5 +9,5 @@ public class GetMostPopulatedCountriesResponse {
     private String statusCode;
     private String statusDesc;
 
-    private List<CountrySummary> countries;
+    private List<CountryDensity> countries;
 }
