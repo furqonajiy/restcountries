@@ -1,5 +1,6 @@
 package com.furqonajiy.restcountries.api.adapter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class RestCountriesAdapter {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public List<RestCountriesResponse> allCountries() {
+    public List<RestCountriesResponse> allCountries() throws JsonProcessingException {
         log.debug("Invoke Rest Countries - All Countries");
 
         try {
@@ -50,15 +51,9 @@ public class RestCountriesAdapter {
             log.debug("Rest Countries Backend Response: {}", objectMapper.writeValueAsString(backendResponse));
 
             return backendResponse;
-        } catch (HttpStatusCodeException e) {
-            log.debug("HttpStatusCodeException occurs.", e);
-            return null;
-        } catch (ResourceAccessException e) {
-            log.debug("ResourceAccessException occurs.", e);
-            return null;
         } catch (Exception e) {
             log.debug("Exception occurs.", e);
-            return null;
+            throw e;
         }
     }
 }

@@ -2,10 +2,12 @@ package com.furqonajiy.restcountries.model.getmostpopulatedcountries;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class GetMostPopulatedCountriesResponse {
-    private String name;
-    private double area;
-    private int population;
-    private double populationDensity;
+    private String statusCode;
+    private String statusDesc;
+
+    private List<CountrySummary> countries;
 }
