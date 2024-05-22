@@ -1,7 +1,7 @@
 package com.furqonajiy.restcountries.api.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.furqonajiy.restcountries.model.backend.restcountries.Country;
+import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,7 +35,7 @@ public class RestCountriesAdapter {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public List<Country> allCountries() {
+    public List<RestCountriesResponse> allCountries() {
         log.debug("Invoke Rest Countries - All Countries");
 
         try {
@@ -46,7 +46,7 @@ public class RestCountriesAdapter {
                     .path(pathAll)
                     .toUriString();
 
-            List<Country> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>(){}).getBody();
+            List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>(){}).getBody();
             log.debug("Rest Countries Backend Response: {}", objectMapper.writeValueAsString(backendResponse));
 
             return backendResponse;
