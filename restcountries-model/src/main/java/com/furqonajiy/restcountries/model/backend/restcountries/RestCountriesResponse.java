@@ -12,6 +12,5 @@ public class RestCountriesResponse {
     private double area;
     private int population;
 
-    private String region;
     private List<String> borders;
 }
