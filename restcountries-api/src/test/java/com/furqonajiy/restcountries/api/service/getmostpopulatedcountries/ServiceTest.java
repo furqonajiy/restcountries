@@ -1,7 +1,8 @@
-package com.furqonajiy.restcountries.api.service;
+package com.furqonajiy.restcountries.api.service.getmostpopulatedcountries;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.furqonajiy.restcountries.api.service.GetMostPopulatedCountriesService;
 import com.furqonajiy.restcountries.api.utility.ObjectMapperConfig;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
@@ -20,7 +21,7 @@ import java.util.Objects;
 @Service
 @Slf4j
 @SpringBootTest(classes = {ObjectMapperConfig.class})
-class GetMostPopulatedCountriesServiceTest {
+class ServiceTest {
     @InjectMocks
     GetMostPopulatedCountriesService getMostPopulatedCountriesService;
 

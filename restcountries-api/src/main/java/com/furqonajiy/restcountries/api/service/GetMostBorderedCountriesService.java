@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.furqonajiy.restcountries.api.adapter.RestCountriesAdapter;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
-import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,15 @@ public class GetMostBorderedCountriesService {
         log.debug("Process Get Most Bordered Countries");
 
         List<RestCountriesResponse> restCountriesResponses = restCountriesAdapter.getRegion(region);
+        List<CountryBorder> countryBorders = constructListCountryBorder(restCountriesResponses);
+        List<CountryBorder> sortedCountryBorders = sortListCountryBorder(countryBorders);
 
-        // Construct Raw Most Bordered Response
+        return sortedCountryBorders;
+    }
+
+    public List<CountryBorder> constructListCountryBorder(List<RestCountriesResponse> restCountriesResponses) {
+        log.debug("Construct List<CountryBorder>");
+
         List<CountryBorder> countryBorders = new ArrayList<>();
         for (RestCountriesResponse restCountriesRs : restCountriesResponses) {
             CountryBorder countryBorder = new CountryBorder();
@@ -49,15 +55,12 @@ public class GetMostBorderedCountriesService {
             }
         }
 
-        // Sort By Most Borders Different Region
-        List<CountryBorder> sortedCountryBorder = countryBorders.stream()
-                .sorted((r1, r2) -> Double.compare(r2.getNumberOfBordersDifferentRegion(), r1.getNumberOfBordersDifferentRegion())) // Sort in descending order
-                .collect(Collectors.toList());
-
-        return sortedCountryBorder;
+        return countryBorders;
     }
 
-    private boolean checkCca3Region(String cca3, List<RestCountriesResponse> restCountriesResponses) {
+    public boolean checkCca3Region(String cca3, List<RestCountriesResponse> restCountriesResponses) {
+        log.debug("Check CCA3 Region");
+
         for (RestCountriesResponse restCountryRs : restCountriesResponses) {
             // If cca3 country is not exist, means the country is in different region
             if (cca3.equalsIgnoreCase(restCountryRs.getCca3())) {
@@ -66,5 +69,14 @@ public class GetMostBorderedCountriesService {
         }
 
         return false;
+    }
+
+    public List<CountryBorder> sortListCountryBorder(List<CountryBorder> countryBorders) {
+        log.debug("Sort List<CountryBorder>");
+
+        List<CountryBorder> sortedCountryBorder = countryBorders.stream()
+                .sorted((r1, r2) -> Double.compare(r2.getNumberOfBordersDifferentRegion(), r1.getNumberOfBordersDifferentRegion())) // Sort in descending order
+                .collect(Collectors.toList());
+        return sortedCountryBorder;
     }
 }
