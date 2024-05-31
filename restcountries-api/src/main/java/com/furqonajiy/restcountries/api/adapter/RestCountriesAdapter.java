@@ -2,6 +2,7 @@ package com.furqonajiy.restcountries.api.adapter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.furqonajiy.restcountries.api.exception.ServiceUnavailableException;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,6 +38,8 @@ public class RestCountriesAdapter {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private static final String GET_ALL_COUNTRIES_BACKEND_NAME = "Rest Countries - Get All Countries";
+
     public List<RestCountriesResponse> allCountries() throws JsonProcessingException {
         log.debug("Invoke Rest Countries - All Countries");
 
@@ -47,15 +51,21 @@ public class RestCountriesAdapter {
                     .path(pathAll)
                     .toUriString();
 
-            List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>(){}).getBody();
+            List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>() {
+            }).getBody();
             log.debug("Rest Countries Backend Response: {}", objectMapper.writeValueAsString(backendResponse));
 
             return backendResponse;
+        } catch (ResourceAccessException e) {
+            log.debug("ResourceAccessException occurs.", e);
+            throw new ServiceUnavailableException(GET_ALL_COUNTRIES_BACKEND_NAME, e);
         } catch (Exception e) {
             log.debug("Exception occurs.", e);
             throw e;
         }
     }
+
+    private static final String GET_REGION_BACKEND_NAME = "Rest Countries - Get Region";
 
     public List<RestCountriesResponse> getRegion(String region) throws JsonProcessingException {
         log.debug("Invoke Rest Countries - Region: {}", region);
@@ -68,10 +78,14 @@ public class RestCountriesAdapter {
                     .path(pathRegion.replace("{region}", region))
                     .toUriString();
 
-            List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>(){}).getBody();
+            List<RestCountriesResponse> backendResponse = restTemplate.exchange(uriString, HttpMethod.GET, null, new ParameterizedTypeReference<List<RestCountriesResponse>>() {
+            }).getBody();
             log.debug("Countries from Region {}: {}", region, objectMapper.writeValueAsString(backendResponse));
 
             return backendResponse;
+        } catch (ResourceAccessException e) {
+            log.debug("ResourceAccessException occurs.", e);
+            throw new ServiceUnavailableException(GET_REGION_BACKEND_NAME, e);
         } catch (Exception e) {
             log.debug("Exception occurs.", e);
             throw e;
