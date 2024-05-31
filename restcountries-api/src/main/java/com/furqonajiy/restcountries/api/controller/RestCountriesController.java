@@ -1,5 +1,6 @@
 package com.furqonajiy.restcountries.api.controller;
 
+import com.furqonajiy.restcountries.api.exception.ServiceUnavailableException;
 import com.furqonajiy.restcountries.api.service.GetMostBorderedCountriesService;
 import com.furqonajiy.restcountries.api.service.GetMostPopulatedCountriesService;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
@@ -40,6 +41,11 @@ public class RestCountriesController {
             response.setCountries(countryDensityList);
 
             return ResponseEntity.ok(response);
+        } catch (ServiceUnavailableException e) {
+            response.setStatusCode(e.getStatusCode());
+            response.setStatusDesc(e.getStatusDesc());
+
+            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         } catch (Exception e) {
             response.setStatusCode("99999");
             response.setStatusDesc("Failed to Get Most Populated Countries");
@@ -63,6 +69,11 @@ public class RestCountriesController {
             response.setCountries(countryBorderList);
 
             return ResponseEntity.ok(response);
+        } catch (ServiceUnavailableException e) {
+            response.setStatusCode(e.getStatusCode());
+            response.setStatusDesc(e.getStatusDesc());
+
+            return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
         } catch (Exception e) {
             log.debug("Exception occurs.", e);
 

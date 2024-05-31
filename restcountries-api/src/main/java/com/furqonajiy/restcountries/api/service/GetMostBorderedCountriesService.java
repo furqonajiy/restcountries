@@ -59,7 +59,7 @@ public class GetMostBorderedCountriesService {
     }
 
     public boolean checkCca3Region(String cca3, List<RestCountriesResponse> restCountriesResponses) {
-        log.debug("Check CCA3 Region");
+        log.debug("Check CCA3 Region: {}", cca3);
 
         for (RestCountriesResponse restCountryRs : restCountriesResponses) {
             // If cca3 country is not exist, means the country is in different region

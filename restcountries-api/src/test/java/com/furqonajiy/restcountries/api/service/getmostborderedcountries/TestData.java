@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furqonajiy.restcountries.api.utility.ObjectMapperConfig;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
-import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
 
 import java.util.List;
 
