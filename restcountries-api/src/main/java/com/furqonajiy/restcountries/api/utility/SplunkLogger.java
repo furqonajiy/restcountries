@@ -13,22 +13,18 @@ public class SplunkLogger {
     private ObjectMapper objectMapper;
 
     public void info(TransactionLog transactionLog) {
-        if (log.isInfoEnabled()) {
-            try {
-                log.info(objectMapper.writeValueAsString(transactionLog));
-            } catch (Exception e) {
-                log.debug("Error Splunk Logger", e);
-            }
+        try {
+            log.info(objectMapper.writeValueAsString(transactionLog));
+        } catch (Exception e) {
+            log.info("Error Splunk Logger", e);
         }
     }
 
     public void error(TransactionLog transactionLog) {
-        if (log.isErrorEnabled()) {
-            try {
-                log.error(objectMapper.writeValueAsString(transactionLog));
-            } catch (Exception e) {
-                log.debug("Error Splunk Logger", e);
-            }
+        try {
+            log.error(objectMapper.writeValueAsString(transactionLog));
+        } catch (Exception e) {
+            log.error("Error Splunk Logger", e);
         }
     }
 }
