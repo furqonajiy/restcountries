@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ICountriesService<Rq, Rs> {
     Rs process(Rq input) throws JsonProcessingException;
+
     Rs constructListCountry(List<RestCountriesResponse> restCountriesResponses);
+
     Rs sortListCountry(Rs input);
 }

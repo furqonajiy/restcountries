@@ -14,7 +14,7 @@ public class TransactionLog {
 
     public TransactionLog(long startMillis, Integer httpStatusCode, Object requestPayload, Object responsePayload) {
         this.timestamp = LocalDateTime.now();
-        this.processTime = System.currentTimeMillis()- startMillis;
+        this.processTime = System.currentTimeMillis() - startMillis;
         this.httpStatusCode = httpStatusCode;
         this.requestPayload = requestPayload;
         this.responsePayload = responsePayload;
