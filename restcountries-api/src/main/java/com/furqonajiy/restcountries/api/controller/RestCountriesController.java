@@ -85,7 +85,7 @@ public class RestCountriesController {
         }
     }
 
-    @GetMapping(value = "rc/v1/country/{region}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "rc/v1/country/border/{region}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response<List<CountryBorder>>> getMostBorderingCountries(
             @PathVariable(value = "region") String region
     ) {
