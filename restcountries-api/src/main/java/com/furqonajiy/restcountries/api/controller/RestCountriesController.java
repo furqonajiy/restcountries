@@ -3,8 +3,8 @@ package com.furqonajiy.restcountries.api.controller;
 import com.furqonajiy.restcountries.api.exception.ServiceUnavailableException;
 import com.furqonajiy.restcountries.api.logging.ErrorLog;
 import com.furqonajiy.restcountries.api.logging.TransactionLog;
-import com.furqonajiy.restcountries.api.service.GetMostBorderedCountriesService;
-import com.furqonajiy.restcountries.api.service.GetMostPopulatedCountriesService;
+import com.furqonajiy.restcountries.api.service.impl.BorderedCountriesServiceImpl;
+import com.furqonajiy.restcountries.api.service.impl.PopulatedCountriesServiceImpl;
 import com.furqonajiy.restcountries.api.utility.SplunkLogger;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.GetMostBorderingCountriesResponse;
@@ -26,10 +26,10 @@ import java.util.List;
 @Slf4j
 public class RestCountriesController {
     @Autowired
-    private GetMostPopulatedCountriesService getMostPopulatedCountriesService;
+    private PopulatedCountriesServiceImpl populatedCountriesService;
 
     @Autowired
-    private GetMostBorderedCountriesService getMostBorderedCountriesService;
+    private BorderedCountriesServiceImpl borderedCountriesService;
 
     @Autowired
     private SplunkLogger splunkLogger;
@@ -45,7 +45,7 @@ public class RestCountriesController {
             response.setStatusCode("00000");
             response.setStatusDesc("Success");
 
-            List<CountryDensity> countryDensityList = getMostPopulatedCountriesService.process();
+            List<CountryDensity> countryDensityList = populatedCountriesService.process(null);
             response.setCountries(countryDensityList);
 
             splunkLogger.info(new TransactionLog(
@@ -99,7 +99,7 @@ public class RestCountriesController {
             response.setStatusCode("00000");
             response.setStatusDesc("Success");
 
-            List<CountryBorder> countryBorderList = getMostBorderedCountriesService.process(region);
+            List<CountryBorder> countryBorderList = borderedCountriesService.process(region);
             response.setCountries(countryBorderList);
 
             splunkLogger.info(new TransactionLog(

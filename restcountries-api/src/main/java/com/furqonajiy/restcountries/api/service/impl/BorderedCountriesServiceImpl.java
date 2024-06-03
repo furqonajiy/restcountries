@@ -1,7 +1,9 @@
-package com.furqonajiy.restcountries.api.service;
+package com.furqonajiy.restcountries.api.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.furqonajiy.restcountries.api.adapter.RestCountriesAdapter;
+import com.furqonajiy.restcountries.api.service.IBorderedCountriesService;
+import com.furqonajiy.restcountries.api.service.ICountriesService;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
 import lombok.extern.slf4j.Slf4j;
@@ -14,21 +16,23 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class GetMostBorderedCountriesService {
+public class BorderedCountriesServiceImpl implements ICountriesService<String, List<CountryBorder>>, IBorderedCountriesService {
     @Autowired
     private RestCountriesAdapter restCountriesAdapter;
 
+    @Override
     public List<CountryBorder> process(String region) throws JsonProcessingException {
         log.debug("Process Get Most Bordered Countries");
 
         List<RestCountriesResponse> restCountriesResponses = restCountriesAdapter.getRegion(region);
-        List<CountryBorder> countryBorders = constructListCountryBorder(restCountriesResponses);
-        List<CountryBorder> sortedCountryBorders = sortListCountryBorder(countryBorders);
+        List<CountryBorder> countryBorders = constructListCountry(restCountriesResponses);
+        List<CountryBorder> sortedCountryBorders = sortListCountry(countryBorders);
 
         return sortedCountryBorders;
     }
 
-    public List<CountryBorder> constructListCountryBorder(List<RestCountriesResponse> restCountriesResponses) {
+    @Override
+    public List<CountryBorder> constructListCountry(List<RestCountriesResponse> restCountriesResponses) {
         log.debug("Construct List<CountryBorder>");
 
         List<CountryBorder> countryBorders = new ArrayList<>();
@@ -58,6 +62,7 @@ public class GetMostBorderedCountriesService {
         return countryBorders;
     }
 
+    @Override
     public boolean checkCca3Region(String cca3, List<RestCountriesResponse> restCountriesResponses) {
         log.debug("Check CCA3 Region: {}", cca3);
 
@@ -71,7 +76,8 @@ public class GetMostBorderedCountriesService {
         return false;
     }
 
-    public List<CountryBorder> sortListCountryBorder(List<CountryBorder> countryBorders) {
+    @Override
+    public List<CountryBorder> sortListCountry(List<CountryBorder> countryBorders) {
         log.debug("Sort List<CountryBorder>");
 
         List<CountryBorder> sortedCountryBorder = countryBorders.stream()
