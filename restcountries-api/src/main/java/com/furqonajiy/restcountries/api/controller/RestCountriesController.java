@@ -6,10 +6,9 @@ import com.furqonajiy.restcountries.api.logging.TransactionLog;
 import com.furqonajiy.restcountries.api.service.impl.BorderedCountriesServiceImpl;
 import com.furqonajiy.restcountries.api.service.impl.PopulatedCountriesServiceImpl;
 import com.furqonajiy.restcountries.api.utility.SplunkLogger;
+import com.furqonajiy.restcountries.model.Response;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
-import com.furqonajiy.restcountries.model.getmostborderingcountries.GetMostBorderingCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
-import com.furqonajiy.restcountries.model.getmostpopulatedcountries.GetMostPopulatedCountriesResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,12 +34,12 @@ public class RestCountriesController {
     private SplunkLogger splunkLogger;
 
     @GetMapping(value = "rc/v1/country/population", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GetMostPopulatedCountriesResponse> getMostPopulatedCountries() {
+    public ResponseEntity<Response<List<CountryDensity>>> getMostPopulatedCountries() {
         log.debug("Receive Get Most Populated Countries");
 
         long startMillis = System.currentTimeMillis();
 
-        GetMostPopulatedCountriesResponse response = new GetMostPopulatedCountriesResponse();
+        Response<List<CountryDensity>> response = new Response<>();
         try {
             response.setStatusCode("00000");
             response.setStatusDesc("Success");
@@ -87,14 +86,14 @@ public class RestCountriesController {
     }
 
     @GetMapping(value = "rc/v1/country/{region}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GetMostBorderingCountriesResponse> getMostBorderingCountries(
+    public ResponseEntity<Response<List<CountryBorder>>> getMostBorderingCountries(
             @PathVariable(value = "region") String region
     ) {
         log.debug("Receive Get Most Bordering Country in {}", region);
 
         long startMillis = System.currentTimeMillis();
 
-        GetMostBorderingCountriesResponse response = new GetMostBorderingCountriesResponse();
+        Response<List<CountryBorder>> response = new Response<>();
         try {
             response.setStatusCode("00000");
             response.setStatusDesc("Success");
