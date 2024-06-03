@@ -52,6 +52,19 @@
         </dependency>
         <!-- Actuator - END -->
 
+        <!-- SpringDoc - START -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        <!-- SpringDoc - END -->
+
         <dependency>
             <groupId>com.furqonajiy</groupId>
             <artifactId>restcountries-model</artifactId>
