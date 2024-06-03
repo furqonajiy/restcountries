@@ -1,8 +1,10 @@
-package com.furqonajiy.restcountries.api.service;
+package com.furqonajiy.restcountries.api.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furqonajiy.restcountries.api.adapter.RestCountriesAdapter;
+import com.furqonajiy.restcountries.api.service.ICountriesService;
+import com.furqonajiy.restcountries.api.service.IPopulatedCountriesService;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class GetMostPopulatedCountriesService {
+public class PopulatedCountriesServiceImpl implements ICountriesService<Object, List<CountryDensity>>, IPopulatedCountriesService {
     @Autowired
     private RestCountriesAdapter restCountriesAdapter;
 
@@ -24,17 +26,19 @@ public class GetMostPopulatedCountriesService {
     @Qualifier("restCountriesObjectMapper")
     private ObjectMapper objectMapper;
 
-    public List<CountryDensity> process() throws JsonProcessingException {
+    @Override
+    public List<CountryDensity> process(Object empty) throws JsonProcessingException {
         log.debug("Process Get Most Populated Countries");
 
         List<RestCountriesResponse> restCountriesResponses = restCountriesAdapter.allCountries();
-        List<CountryDensity> countryDensities = constructListCountryDensity(restCountriesResponses);
-        List<CountryDensity> sortedCountryDensities = sortListCountryDensity(countryDensities);
+        List<CountryDensity> countryDensities = constructListCountry(restCountriesResponses);
+        List<CountryDensity> sortedCountryDensities = sortListCountry(countryDensities);
 
         return sortedCountryDensities;
     }
 
-    public List<CountryDensity> constructListCountryDensity(List<RestCountriesResponse> restCountriesResponses) {
+    @Override
+    public List<CountryDensity> constructListCountry(List<RestCountriesResponse> restCountriesResponses) {
         log.debug("Construct List<CountryDensity>");
 
         List<CountryDensity> countryDensities = new ArrayList<>();
@@ -50,7 +54,8 @@ public class GetMostPopulatedCountriesService {
         return countryDensities;
     }
 
-    public List<CountryDensity> sortListCountryDensity(List<CountryDensity> countryDensities) {
+    @Override
+    public List<CountryDensity> sortListCountry(List<CountryDensity> countryDensities) {
         log.debug("Sort List<CountryDensity>");
 
         List<CountryDensity> sortedCountryDensities = countryDensities.stream()

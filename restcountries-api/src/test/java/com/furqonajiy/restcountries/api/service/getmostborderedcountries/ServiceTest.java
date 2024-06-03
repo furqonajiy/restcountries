@@ -2,7 +2,7 @@ package com.furqonajiy.restcountries.api.service.getmostborderedcountries;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.furqonajiy.restcountries.api.service.GetMostBorderedCountriesService;
+import com.furqonajiy.restcountries.api.service.impl.BorderedCountriesServiceImpl;
 import com.furqonajiy.restcountries.api.utility.ObjectMapperConfig;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostborderingcountries.CountryBorder;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @SpringBootTest(classes = {ObjectMapperConfig.class})
 class ServiceTest {
     @InjectMocks
-    GetMostBorderedCountriesService getMostBorderedCountriesService;
+    BorderedCountriesServiceImpl getMostBorderedCountriesService;
 
     @Mock(name = "restCountriesObjectMapper")
     ObjectMapper objectMapper;
@@ -37,7 +37,7 @@ class ServiceTest {
     @DisplayName("constructListCountryBorder()")
     void constructListCountryBorder() throws JsonProcessingException {
         List<RestCountriesResponse> restCountriesRsAsia = TestData.restCountriesRsAsia();
-        List<CountryBorder> countryBorders = getMostBorderedCountriesService.constructListCountryBorder(restCountriesRsAsia);
+        List<CountryBorder> countryBorders = getMostBorderedCountriesService.constructListCountry(restCountriesRsAsia);
         assert Objects.equals(objectMapper.writeValueAsString(countryBorders), objectMapper.writeValueAsString(TestData.countryBordersRs()));
     }
 
@@ -53,7 +53,7 @@ class ServiceTest {
     @DisplayName("sortListCountryBorder()")
     void sortListCountryBorder() throws JsonProcessingException {
         List<CountryBorder> countryBorders = TestData.countryBordersRs();
-        List<CountryBorder> sortedCountryBorders = getMostBorderedCountriesService.sortListCountryBorder(countryBorders);
+        List<CountryBorder> sortedCountryBorders = getMostBorderedCountriesService.sortListCountry(countryBorders);
         assert Objects.equals(sortedCountryBorders.get(0).getName(), "Turkey");
     }
 }

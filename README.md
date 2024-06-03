@@ -1,7 +1,7 @@
 # About this Project
 This project has 2 API.
 1. `rc/v1/country/population` will shows you all countries sorted by descending population density.
-2. `rc/v1/country/{region}` will shows countries with the most border outside its region.
+2. `rc/v1/country/border/{region}` will shows countries with the most border outside its region.
 
 # Before Running the Application
 1. We need to pull this repository

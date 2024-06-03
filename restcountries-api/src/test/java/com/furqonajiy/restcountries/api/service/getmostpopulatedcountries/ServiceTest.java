@@ -2,7 +2,7 @@ package com.furqonajiy.restcountries.api.service.getmostpopulatedcountries;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.furqonajiy.restcountries.api.service.GetMostPopulatedCountriesService;
+import com.furqonajiy.restcountries.api.service.impl.PopulatedCountriesServiceImpl;
 import com.furqonajiy.restcountries.api.utility.ObjectMapperConfig;
 import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
 import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @SpringBootTest(classes = {ObjectMapperConfig.class})
 class ServiceTest {
     @InjectMocks
-    GetMostPopulatedCountriesService getMostPopulatedCountriesService;
+    PopulatedCountriesServiceImpl getMostPopulatedCountriesService;
 
     @Mock(name = "restCountriesObjectMapper")
     ObjectMapper objectMapper;
@@ -37,7 +37,7 @@ class ServiceTest {
     @DisplayName("constructListCountryDensity()")
     void constructListCountryDensity() throws JsonProcessingException {
         List<RestCountriesResponse> restCountriesRsAllCountry = TestData.restCountriesRsAllCountry();
-        List<CountryDensity> countryDensitiesRs = getMostPopulatedCountriesService.constructListCountryDensity(restCountriesRsAllCountry);
+        List<CountryDensity> countryDensitiesRs = getMostPopulatedCountriesService.constructListCountry(restCountriesRsAllCountry);
 
         assert Objects.equals(objectMapper.writeValueAsString(countryDensitiesRs), objectMapper.writeValueAsString(TestData.countryDensitiesRs()));
     }
@@ -46,7 +46,7 @@ class ServiceTest {
     @DisplayName("sortListCountryDensity()")
     void sortListCountryDensity() throws JsonProcessingException {
         List<CountryDensity> countryDensitiesRs = TestData.countryDensitiesRs();
-        List<CountryDensity> sortedCountryDensitiesRs = getMostPopulatedCountriesService.sortListCountryDensity(countryDensitiesRs);
+        List<CountryDensity> sortedCountryDensitiesRs = getMostPopulatedCountriesService.sortListCountry(countryDensitiesRs);
         assert Objects.equals(objectMapper.writeValueAsString(sortedCountryDensitiesRs), objectMapper.writeValueAsString(TestData.sortedCountryDensitiesRs()));
     }
 }
