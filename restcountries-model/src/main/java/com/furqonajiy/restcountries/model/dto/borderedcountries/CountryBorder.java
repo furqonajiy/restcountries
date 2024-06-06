@@ -1,4 +1,4 @@
-package com.furqonajiy.restcountries.model.getmostborderingcountries;
+package com.furqonajiy.restcountries.model.dto.borderedcountries;
 
 import lombok.Data;
 
