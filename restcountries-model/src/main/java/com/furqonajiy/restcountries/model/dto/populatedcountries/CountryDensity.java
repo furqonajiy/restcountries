@@ -1,4 +1,4 @@
-package com.furqonajiy.restcountries.model.getmostpopulatedcountries;
+package com.furqonajiy.restcountries.model.dto.populatedcountries;
 
 import lombok.Data;
 

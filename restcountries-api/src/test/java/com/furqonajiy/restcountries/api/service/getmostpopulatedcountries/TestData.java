@@ -3,8 +3,8 @@ package com.furqonajiy.restcountries.api.service.getmostpopulatedcountries;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furqonajiy.restcountries.api.utility.ObjectMapperConfig;
-import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
-import com.furqonajiy.restcountries.model.getmostpopulatedcountries.CountryDensity;
+import com.furqonajiy.restcountries.model.dto.populatedcountries.CountryDensity;
+import com.furqonajiy.restcountries.model.dto.restcountries.RestCountriesResponse;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.furqonajiy.restcountries.model.backend.restcountries;
+package com.furqonajiy.restcountries.model.dto.restcountries;
 
 import lombok.Data;
 

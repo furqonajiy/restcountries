@@ -3,7 +3,7 @@ package com.furqonajiy.restcountries.api.adapter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furqonajiy.restcountries.api.exception.ServiceUnavailableException;
-import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
+import com.furqonajiy.restcountries.model.dto.restcountries.RestCountriesResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

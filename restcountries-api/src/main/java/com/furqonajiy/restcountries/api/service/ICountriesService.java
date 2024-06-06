@@ -1,7 +1,7 @@
 package com.furqonajiy.restcountries.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.furqonajiy.restcountries.model.backend.restcountries.RestCountriesResponse;
+import com.furqonajiy.restcountries.model.dto.restcountries.RestCountriesResponse;
 
 import java.util.List;
 
